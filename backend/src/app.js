@@ -6,7 +6,10 @@ const morgan = require("morgan");
 const app = express();
 
 app.use(helmet());
-app.use(cors({ origin: process.env.FRONTEND_URL || "*", credentials: true }));
+app.use(cors({ 
+  origin: [process.env.FRONTEND_URL, "https://shelf-sigma-hazel.vercel.app", "http://localhost:3000"].filter(Boolean), 
+  credentials: true 
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));

@@ -9,8 +9,8 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: process.env.FRONTEND_URL || "*",
-    methods: ["GET", "POST"],
+    origin: [process.env.FRONTEND_URL, "https://shelf-sigma-hazel.vercel.app", "http://localhost:3000"].filter(Boolean),
+    methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
   },
 });
 
