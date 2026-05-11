@@ -6,11 +6,7 @@ import {
 } from "lucide-react";
 import ListingCard from "../components/ListingCard";
 import Avatar from "../components/Avatar";
-import {
-  CATEGORIES,
-  fmtPrice,
-  timeAgo,
-} from "../data";
+import { CATEGORIES, fmtPrice, timeAgo, API_URL } from "../data";
 
 export default function Landing({
   setView,
@@ -26,7 +22,7 @@ export default function Landing({
   const [recentListings, setRecentListings] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/listings")
+    fetch(`${API_URL}/api/listings`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {

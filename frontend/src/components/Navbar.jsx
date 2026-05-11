@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 import Avatar from "./Avatar";
 
+import { API_URL } from "../data";
+
 export default function Navbar({ view, setView, user, setUser, setAuthMode, goBack }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -27,7 +29,7 @@ export default function Navbar({ view, setView, user, setUser, setAuthMode, goBa
     const fetchUnread = async () => {
       if (!user) return;
       try {
-        const res = await fetch("http://localhost:5000/api/conversations", {
+        const res = await fetch(`${API_URL}/api/conversations`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("shelf_token")}` },
         });
         const data = await res.json();

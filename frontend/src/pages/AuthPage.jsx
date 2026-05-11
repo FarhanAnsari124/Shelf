@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Send, Eye, CheckCircle, ArrowLeft, Shield, AlertTriangle, XCircle, RefreshCw } from "lucide-react";
-import { validateRoll, decodeRoll } from "../data";
+import { validateRoll, decodeRoll, API_URL } from "../data";
 
 export default function AuthPage({ mode, setView, setUser, onModeChange }) {
   const [step, setStep] = useState(mode === "register" ? "register" : "login");
@@ -28,7 +28,7 @@ export default function AuthPage({ mode, setView, setUser, onModeChange }) {
     setError("");
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/auth/register', {
+      const res = await fetch(`${API_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, rollNumber: roll, email, password: pw })
@@ -46,7 +46,7 @@ export default function AuthPage({ mode, setView, setUser, onModeChange }) {
     setError("");
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/auth/verify-otp', {
+      const res = await fetch(`${API_URL}/api/auth/verify-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, otp: code })
@@ -67,7 +67,7 @@ export default function AuthPage({ mode, setView, setUser, onModeChange }) {
     setError("");
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/auth/login', {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password: pw })

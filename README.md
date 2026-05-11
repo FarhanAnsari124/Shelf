@@ -99,5 +99,25 @@ Open [http://localhost:3000](http://localhost:3000)
 ## 📄 License
 Distributed under the MIT License.
 
+## 🚀 Deployment Guide
+
+### Backend (Render/Railway)
+1.  **Create a new Web Service** on [Render](https://render.com/).
+2.  Connect your GitHub repository.
+3.  Set the **Root Directory** to `backend`.
+4.  Set the **Build Command** to `npm install`.
+5.  Set the **Start Command** to `node src/server.js`.
+6.  Add the **Environment Variables** (from your `.env` file).
+7.  **Important**: Set `FRONTEND_URL` to your production frontend URL (e.g., `https://shelf-app.vercel.app`).
+
+### Frontend (Vercel/Netlify)
+1.  **Create a new Project** on [Vercel](https://vercel.com/).
+2.  Connect your GitHub repository.
+3.  Set the **Root Directory** to `frontend`.
+4.  Vercel will automatically detect the Vite build settings.
+5.  Add the **Environment Variables**:
+    -   `VITE_API_URL`: Set this to your production backend URL (e.g., `https://shelf-backend.onrender.com`).
+6.  Deploy!
+
 ---
 Built with ❤️ by [Farhan](https://github.com/FarhanAnsari124) for students, by students.

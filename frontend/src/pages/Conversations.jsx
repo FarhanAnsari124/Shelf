@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { MessageCircle } from "lucide-react";
 import TrustBadge from "../components/TrustBadge";
 import Avatar from "../components/Avatar";
-import { timeAgo } from "../data";
+import { timeAgo, API_URL } from "../data";
 
 export default function Conversations({ setView, setSelectedConv, user }) {
   const [conversations, setConversations] = useState([]);
@@ -11,7 +11,7 @@ export default function Conversations({ setView, setSelectedConv, user }) {
   useEffect(() => {
     const fetchConversations = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/conversations", {
+        const res = await fetch(`${API_URL}/api/conversations`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("shelf_token")}` },
         });
         const data = await res.json();

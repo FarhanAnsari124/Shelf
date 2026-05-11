@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Search, Plus, X, SlidersHorizontal } from "lucide-react";
 import ListingCard from "../components/ListingCard";
-import { CATEGORIES, CONDITIONS } from "../data";
+import { CATEGORIES, CONDITIONS, API_URL } from "../data";
 
 export default function Browse({ setView, setSelected, user, savedIds, setSavedIds, initialFilter = "all", initialSearch = "" }) {
   const [query, setQuery] = useState(initialSearch);
@@ -29,7 +29,7 @@ export default function Browse({ setView, setSelected, user, savedIds, setSavedI
         let sortVal = sort === "Price: Low" ? "price_asc" : sort === "Price: High" ? "price_desc" : "newest";
         p.append("sort", sortVal);
 
-        const res = await fetch(`http://localhost:5000/api/listings?${p.toString()}`);
+        const res = await fetch(`${API_URL}/api/listings?${p.toString()}`);
         const data = await res.json();
         if (data.success) {
           setListings(data.data.map(item => ({

@@ -3,7 +3,7 @@ import { Plus, X, Check, CheckCircle, AlertTriangle } from "lucide-react";
 import ConditionBadge from "../components/ConditionBadge";
 import Avatar from "../components/Avatar";
 import TrustBadge from "../components/TrustBadge";
-import { CATEGORIES, CONDITIONS, fmtPrice } from "../data";
+import { CATEGORIES, CONDITIONS, fmtPrice, API_URL } from "../data";
 
 export default function PostAd({ setView, user }) {
   const [step, setStep] = useState(1);
@@ -23,7 +23,7 @@ export default function PostAd({ setView, user }) {
     files.forEach(f => formData.append("images", f));
 
     try {
-      const res = await fetch("http://localhost:5000/api/listings", {
+      const res = await fetch(`${API_URL}/api/listings`, {
         method: "POST",
         headers: { Authorization: `Bearer ${localStorage.getItem("shelf_token")}` },
         body: formData,

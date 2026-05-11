@@ -18,7 +18,7 @@ import Avatar from "../components/Avatar";
 import TrustBadge from "../components/TrustBadge";
 import RatingStars from "../components/RatingStars";
 import ListingCard from "../components/ListingCard";
-import { CATEGORIES, fmtPrice, timeAgo } from "../data";
+import { CATEGORIES, fmtPrice, timeAgo, API_URL } from "../data";
 
 export default function Profile({ setView, user, setUser, initialTab = "listings" }) {
   const [tab, setTab] = useState(initialTab);
@@ -42,7 +42,7 @@ export default function Profile({ setView, user, setUser, initialTab = "listings
 
   useEffect(() => {
     if (user) {
-      fetch("http://localhost:5000/api/listings")
+      fetch(`${API_URL}/api/listings`)
         .then((res) => res.json())
         .then((data) => {
           if (data.success) {
@@ -86,7 +86,7 @@ export default function Profile({ setView, user, setUser, initialTab = "listings
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/users/profile", {
+      const res = await fetch(`${API_URL}/api/users/profile`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("shelf_token")}`,

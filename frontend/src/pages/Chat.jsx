@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Send, ArrowLeft } from "lucide-react";
-import { fmtPrice } from "../data";
+import { fmtPrice, API_URL } from "../data";
 import Avatar from "../components/Avatar";
 
 export default function Chat({ conversation: initialConv, setView, user }) {
@@ -19,7 +19,7 @@ export default function Chat({ conversation: initialConv, setView, user }) {
   const markRead = async () => {
     if (!convId) return;
     try {
-      await fetch(`http://localhost:5000/api/conversations/${convId}/read`, {
+      await fetch(`${API_URL}/api/conversations/${convId}/read`, {
         method: "PATCH",
         headers: { Authorization: `Bearer ${localStorage.getItem("shelf_token")}` },
       });
@@ -29,7 +29,7 @@ export default function Chat({ conversation: initialConv, setView, user }) {
   const fetchMessages = async () => {
     if (!convId) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/conversations/${convId}/messages`, {
+      const res = await fetch(`${API_URL}/api/conversations/${convId}/messages`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("shelf_token")}` },
       });
       const data = await res.json();
@@ -46,7 +46,7 @@ export default function Chat({ conversation: initialConv, setView, user }) {
         const lId = initialConv.listing.id || initialConv.listing._id;
         const oId = otherUser.id || otherUser._id;
         try {
-          const res = await fetch(`http://localhost:5000/api/conversations/find?listingId=${lId}&receiverId=${oId}`, {
+          const res = await fetch(`${API_URL}/api/conversations/find?listingId=${lId}&receiverId=${oId}`, {
             headers: { Authorization: `Bearer ${localStorage.getItem("shelf_token")}` },
           });
           const data = await res.json();
@@ -94,7 +94,7 @@ export default function Chat({ conversation: initialConv, setView, user }) {
 
     setSending(true);
     try {
-      const res = await fetch("http://localhost:5000/api/conversations", {
+      const res = await fetch(`${API_URL}/api/conversations`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -115,7 +115,7 @@ export default function Chat({ conversation: initialConv, setView, user }) {
 
   const respondOffer = async (msgId, status) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/conversations/offers/${msgId}`, {
+      const res = await fetch(`${API_URL}/api/conversations/offers/${msgId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
