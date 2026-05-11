@@ -1,21 +1,26 @@
-const Brevo = require("@getbrevo/brevo");
-
-const apiInstance = new Brevo.TransactionalEmailsApi();
+const axios = require("axios");
 
 const sendOTP = async (email, otp) => {
   try {
-    apiInstance.setApiKey(Brevo.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY);
-
-    const sendSmtpEmail = new Brevo.SendSmtpEmail();
-    sendSmtpEmail.subject = "Your OTP for SHELF Verification";
-    sendSmtpEmail.htmlContent = `<html><body><b>Your verification code is ${otp}</b><p>It expires in 10 minutes.</p></body></html>`;
-    sendSmtpEmail.sender = { 
-      name: "SHELF Marketplace", 
-      email: process.env.BREVO_SENDER_EMAIL || "farhan.knp121@gmail.com" 
+    const data = {
+      sender: { 
+        name: "SHELF Marketplace", 
+        email: process.env.BREVO_SENDER_EMAIL || "farhan.knp121@gmail.com" 
+      },
+      to: [{ email: email }],
+      subject: "Your OTP for SHELF Verification",
+      htmlContent: `<html><body><b>Your verification code is ${otp}</b><p>It expires in 10 minutes.</p></body></html>`
     };
-    sendSmtpEmail.to = [{ email: email }];
 
-    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    const config = {
+      headers: {
+        "api-key": process.env.BREVO_API_KEY,
+        "content-type": "application/json",
+        "accept": "application/json"
+      }
+    };
+
+    await axios.post("https://api.brevo.com/v3/smtp/email", data, config);
     return true;
   } catch (error) {
     return false;
