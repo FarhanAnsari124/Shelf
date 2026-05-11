@@ -1,25 +1,24 @@
-const nodemailer = require("nodemailer");
+const SibApiV3Sdk = require("@getbrevo/brevo");
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
+let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+let apiKey = apiInstance.authentications["apiKey"];
 
 const sendOTP = async (email, otp) => {
   try {
-    await transporter.sendMail({
-      from: `"SHELF Campus Marketplace" <${process.env.SMTP_USER}>`,
-      to: email,
-      subject: "Your OTP for SHELF Verification",
-      text: `Your verification code is ${otp}. It expires in 10 minutes.`,
-      html: `<b>Your verification code is ${otp}</b><p>It expires in 10 minutes.</p>`,
-    });
+    apiKey.apiKey = process.env.BREVO_API_KEY;
+
+    const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+    sendSmtpEmail.subject = "Your OTP for SHELF Verification";
+    sendSmtpEmail.htmlContent = `<html><body><b>Your verification code is ${otp}</b><p>It expires in 10 minutes.</p></body></html>`;
+    sendSmtpEmail.sender = { 
+      name: "SHELF Marketplace", 
+      email: process.env.BREVO_SENDER_EMAIL || "farhan.knp121@gmail.com" 
+    };
+    sendSmtpEmail.to = [{ email: email }];
+
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
     return true;
   } catch (error) {
-    console.error("Email send error:", error);
     return false;
   }
 };

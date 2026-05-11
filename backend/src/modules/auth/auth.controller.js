@@ -16,7 +16,9 @@ exports.register = async (req, res, next) => {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     otpStore.set(email, { otp, userData: { name, rollNumber, email, password }, expiresAt: Date.now() + 10 * 60 * 1000 });
     
-    await sendOTP(email, otp);
+    const sent = await sendOTP(email, otp);
+    if (!sent) return res.status(500).json({ success: false, message: "Failed to send OTP. Please try again later." });
+
     res.json({ success: true, message: "OTP sent" });
   } catch (e) { next(e); }
 };
