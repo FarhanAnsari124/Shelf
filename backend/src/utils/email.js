@@ -1,13 +1,12 @@
-const SibApiV3Sdk = require("@getbrevo/brevo");
+const Brevo = require("@getbrevo/brevo");
 
-let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
-let apiKey = apiInstance.authentications["apiKey"];
+const apiInstance = new Brevo.TransactionalEmailsApi();
 
 const sendOTP = async (email, otp) => {
   try {
-    apiKey.apiKey = process.env.BREVO_API_KEY;
+    apiInstance.setApiKey(Brevo.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY);
 
-    const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+    const sendSmtpEmail = new Brevo.SendSmtpEmail();
     sendSmtpEmail.subject = "Your OTP for SHELF Verification";
     sendSmtpEmail.htmlContent = `<html><body><b>Your verification code is ${otp}</b><p>It expires in 10 minutes.</p></body></html>`;
     sendSmtpEmail.sender = { 
