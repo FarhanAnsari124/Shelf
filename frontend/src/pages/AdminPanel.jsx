@@ -1,0 +1,62 @@
+import React, { useState } from "react";
+import { Search, MessageCircle, CheckCircle, Users, FileText, AlertTriangle, TrendingUp, Award } from "lucide-react";
+
+export default function AdminPanel({ setView, user }) {
+  const [tab, setTab] = useState("dashboard");
+
+  const stats = [
+    ["Active Listings", "0", TrendingUp, "#FF3300"],
+    ["Verified Students", "0", Users, "#4F46E5"],
+    ["Reports Pending", "0", AlertTriangle, "#b45309"],
+    ["Colleges", "0", Award, "#16a34a"],
+  ];
+
+  return (
+    <div className="pt-24 pb-20 px-10 bg-[#FAFAF8] min-h-screen">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex justify-between mb-8">
+          <div>
+            <p className="pp text-xs font-bold text-[#FF3300] uppercase tracking-widest mb-1">College Admin</p>
+            <h1 className="pp font-extrabold text-3xl">Admin Panel</h1>
+          </div>
+          <span className="pp text-xs font-semibold px-3 py-1.5 bg-[#DCFCE7] text-[#16a34a] rounded-full flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-[#16a34a]" /> All Systems Operational</span>
+        </div>
+
+        <div className="grid grid-cols-4 gap-5 mb-8">
+          {stats.map(([label, val, Icon, color]) => (
+            <div key={label} className="bg-white rounded-2xl p-6 border border-gray-100">
+              <div className="w-11 h-11 flex items-center justify-center rounded-xl mb-4" style={{ background: `${color}18` }}><Icon size={20} color={color} /></div>
+              <p className="pp font-extrabold text-3xl text-[#111]">{val}</p>
+              <p className="pp text-sm text-gray-400">{label}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex gap-2 mb-6">
+          {[["dashboard", "Moderation"], ["users", "Users"], ["analytics", "Analytics"]].map(([t, l]) => (
+            <button key={t} onClick={() => setTab(t)} className="pp text-sm font-semibold px-5 py-2.5 rounded-xl border-1.5" style={{ background: tab === t ? "#111" : "#fff", color: tab === t ? "#fff" : "#666", borderColor: tab === t ? "#111" : "#E0DDD9" }}>{l}</button>
+          ))}
+        </div>
+
+        {tab === "dashboard" ? (
+          <div className="flex flex-col items-center justify-center py-20 text-gray-500"><CheckCircle size={40} color="#16a34a" className="mb-4" /><p className="pp font-semibold">Moderation queue is empty!</p></div>
+        ) : tab === "users" ? (
+          <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-50 flex items-center gap-3"><Search size={15} color="#bbb" /><input placeholder="Search..." className="flex-1 text-sm bg-transparent border-none" /></div>
+            <div className="flex flex-col items-center justify-center py-20 text-gray-400"><Users size={40} className="mb-4" /><p className="pp font-semibold">No users found.</p></div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-6">
+            <div className="bg-white rounded-2xl p-6 border border-gray-100"><p className="pp font-bold mb-5">Platform Activity</p>
+              <div className="flex flex-col gap-4">
+                {[["Today's Listings", "0", TrendingUp, "#16a34a"], ["Today's Signups", "0", Users, "#4F46E5"], ["Messages Sent", "0", MessageCircle, "#FF3300"]].map(([l, v, Icon, c]) => (
+                  <div key={l} className="flex justify-between p-3 bg-[#F8F7F5] rounded-xl"><div className="flex items-center gap-3"><Icon size={15} color={c} /><span className="text-sm text-gray-600">{l}</span></div><span className="pp font-bold text-sm">{v}</span></div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

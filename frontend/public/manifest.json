@@ -1,0 +1,17 @@
+{
+  "name": "SHELF — Campus Marketplace",
+  "short_name": "SHELF",
+  "description": "Student Hub for Easy Listing & Finding",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAFAF8",
+  "theme_color": "#FF3300",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    }
+  ]
+}
