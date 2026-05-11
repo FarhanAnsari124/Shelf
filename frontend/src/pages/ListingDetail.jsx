@@ -87,7 +87,7 @@ export default function ListingDetail({ listing: item, setView, user, savedIds, 
                 <div key={k} className="text-center p-3 bg-[#F8F7F5] rounded-xl"><p className="pp text-xs text-gray-400 mb-1">{k}</p><div className="flex justify-center">{v}</div></div>
               ))}
             </div>
-            {user?.id === item.seller._id || user?.id === item.seller.id ? (
+            {user && (user.id || user._id) === (item.seller.id || item.seller._id) ? (
               <div className="w-full py-3 bg-[#F5F3F0] text-[#999] text-center rounded-xl text-sm font-semibold">Your listing</div>
             ) : user ? (
               <button onClick={() => setChatOpen(true)} className="btnr w-full pp font-bold text-sm text-white py-4 bg-[#FF3300] rounded-xl flex items-center justify-center gap-2 border-none cursor-pointer"><MessageCircle size={15} /> Chat with Seller</button>
