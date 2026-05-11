@@ -42,15 +42,6 @@ input[type="password"]::-webkit-contacts-auto-fill-button{display:none !importan
 ::-webkit-scrollbar-thumb{background:#ddd;border-radius:10px}
 .chat-bubble-in{border-radius:18px 18px 18px 4px}
 .chat-bubble-out{border-radius:18px 18px 4px 18px}
-@media (max-width: 768px) {
-  .px-10 { padding-left: 20px !important; padding-right: 20px !important; }
-  .pt-24 { padding-top: 80px !important; }
-  .grid-cols-3, .grid-cols-4 { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
-  .grid-cols-2 { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
-  h1 { font-size: 32px !important; letter-spacing: -1px !important; }
-  .text-lg { font-size: 16px !important; }
-  .max-w-4xl, .max-w-6xl { width: 100% !important; margin: 0 !important; }
-}
 `;
 
 export const CATEGORIES = [

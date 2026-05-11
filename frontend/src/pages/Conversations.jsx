@@ -52,7 +52,7 @@ export default function Conversations({ setView, setSelectedConv, user }) {
   }, [user.id, user._id]);
 
   return (
-    <div className="pt-24 pb-20 px-10" style={{ background: "#FAFAF8", minHeight: "100vh" }}>
+    <div className="pt-24 pb-20 px-4 md:px-10" style={{ background: "#FAFAF8", minHeight: "100vh" }}>
       <div className="max-w-2xl mx-auto">
         <h1 className="pp font-extrabold text-3xl tracking-tight mb-8" style={{ color: "#111" }}>
           Messages

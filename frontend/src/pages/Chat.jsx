@@ -130,7 +130,7 @@ export default function Chat({ conversation: initialConv, setView, user }) {
 
   return (
     <div className="flex flex-col" style={{ height: "100vh", background: "#FAFAF8", paddingTop: 64 }}>
-      <div className="flex items-center gap-4 px-6 py-4 bg-white border-b border-gray-100 shadow-sm">
+      <div className="flex items-center gap-4 px-4 md:px-6 py-4 bg-white border-b border-gray-100 shadow-sm">
         <Avatar name={otherUser.name} src={otherUser.avatarUrl} size={40} fontSize={16} />
         <div className="flex-1">
           <p className="pp font-bold text-sm text-gray-900">{otherUser.name}</p>
@@ -139,7 +139,7 @@ export default function Chat({ conversation: initialConv, setView, user }) {
         <div className="pp font-extrabold text-base" style={{ color: "#FF3300" }}>{fmtPrice(initialConv.listing.price)}</div>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-6 py-6 flex flex-col gap-3">
+      <div className="flex-1 overflow-y-auto px-4 md:px-6 py-6 flex flex-col gap-3">
         {loading ? <p className="text-center text-gray-400 text-xs py-10">Loading...</p> : msgs.length === 0 ? <p className="text-center text-gray-400 text-xs py-10">No messages yet</p> : msgs.map(m => {
           const mine = (m.senderId === myId || m.senderId?._id === myId);
           if (m.type === "offer") {
@@ -171,7 +171,7 @@ export default function Chat({ conversation: initialConv, setView, user }) {
       </div>
 
       {showOffer && (
-        <div className="px-6 py-4 bg-white border-t border-gray-100">
+        <div className="px-4 md:px-6 py-4 bg-white border-t border-gray-100">
           <p className="pp text-sm font-bold text-gray-700 mb-3">Make an Offer</p>
           <div className="flex gap-3 items-center">
             <div className="flex-1 flex items-center gap-2 rounded-xl border border-gray-200 px-3 py-2.5">
@@ -184,7 +184,7 @@ export default function Chat({ conversation: initialConv, setView, user }) {
         </div>
       )}
 
-      <div className="px-6 py-4 bg-white border-t border-gray-100 flex items-center gap-3">
+      <div className="px-4 md:px-6 py-4 bg-white border-t border-gray-100 flex items-center gap-3">
         <button onClick={() => setShowOffer(p => !p)} className="pp text-xs font-bold px-4 py-2.5 rounded-xl" style={{ background: showOffer ? "#111" : "#F5F3F0", color: showOffer ? "#fff" : "#555", border: "none" }}>Make Offer</button>
         <div className="flex-1 flex items-center gap-2 bg-white rounded-2xl px-4 py-2.5 border border-gray-200">
           <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && sendMsg("text", input.trim())} placeholder="Type a message..." className="flex-1 text-sm bg-transparent" style={{ color: "#111", border: "none" }} />

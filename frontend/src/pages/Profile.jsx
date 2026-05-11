@@ -131,10 +131,10 @@ export default function Profile({ setView, user, setUser, initialTab = "listings
     );
 
   return (
-    <div className="pt-24 pb-20 px-10" style={{ background: "#FAFAF8", minHeight: "100vh" }}>
+    <div className="pt-24 pb-20 px-4 md:px-10" style={{ background: "#FAFAF8", minHeight: "100vh" }}>
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-3xl p-8 border border-gray-100 mb-6">
-          <div className="flex items-start gap-6">
+        <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-100 mb-6">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
             <div className="relative">
               {user.avatarUrl ? (
                 <img src={user.avatarUrl} alt="" className="rounded-full object-cover" style={{ width: 80, height: 80 }} />
@@ -143,7 +143,7 @@ export default function Profile({ setView, user, setUser, initialTab = "listings
               )}
             </div>
             <div className="flex-1">
-              <div className="flex items-center gap-3 mb-1">
+              <div className="flex flex-col sm:flex-row items-center gap-3 mb-1">
                 <h1 className="pp font-extrabold text-2xl" style={{ color: "#111" }}>{user.name}</h1>
                 {user.isVerified && (
                   <span className="pp flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: "#DCFCE7", color: "#16a34a" }}>
@@ -158,14 +158,14 @@ export default function Profile({ setView, user, setUser, initialTab = "listings
             </div>
             <button
               onClick={() => setShowEdit(true)}
-              className="pp flex items-center gap-2 text-sm font-semibold px-4 py-2.5 rounded-xl"
+              className="pp flex items-center gap-2 text-sm font-semibold px-4 py-2.5 rounded-xl w-full sm:w-auto justify-center"
               style={{ border: "2px solid #E8E6E3", background: "transparent", color: "#555", cursor: "pointer" }}
             >
               <Edit size={13} /> Edit Profile
             </button>
           </div>
 
-          <div className="grid grid-cols-4 gap-4 mt-8 pt-6 border-t border-gray-50">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-6 border-t border-gray-50">
             {[
               ["Trust Score", (user.trustScore || 0) + "/100"],
               ["Avg Rating", (user.avgRating || 0).toFixed(1) + " ★"],
@@ -203,12 +203,12 @@ export default function Profile({ setView, user, setUser, initialTab = "listings
         </div>
 
         {tab === "listings" && (
-          <div className="grid grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
             {myListings.map((item) => (
               <ListingCard key={item.id} item={item} onClick={() => {}} savedIds={[]} onToggleSave={() => {}} />
             ))}
             {myListings.length === 0 && (
-              <div className="col-span-3 text-center py-20 bg-white rounded-3xl border border-dashed border-gray-200">
+              <div className="col-span-full text-center py-20 bg-white rounded-3xl border border-dashed border-gray-200">
                 <p className="pp text-sm text-gray-400 font-medium">No active listings yet.</p>
               </div>
             )}

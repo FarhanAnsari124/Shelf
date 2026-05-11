@@ -3,10 +3,12 @@ import {
   Search,
   ArrowRight,
   Laptop,
+  Plus,
 } from "lucide-react";
 import ListingCard from "../components/ListingCard";
 import Avatar from "../components/Avatar";
 import { CATEGORIES, fmtPrice, timeAgo, API_URL } from "../data";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Landing({
   setView,
@@ -59,6 +61,8 @@ export default function Landing({
     setView(query ? `browse:all:${query}` : "browse");
   };
 
+  const savedListings = recentListings.filter((l) => savedIds.includes(l.id));
+
   return (
     <div>
       {}
@@ -105,8 +109,11 @@ export default function Landing({
         />
 
         <div className="relative z-10" style={{ maxWidth: 860 }}>
-          <div
-            className="a1 inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-9"
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-9"
             style={{ background: "#111" }}
           >
             <span
@@ -121,10 +128,13 @@ export default function Landing({
             <span className="pp text-xs font-semibold tracking-widest text-white">
               VERIFIED STUDENTS ONLY
             </span>
-          </div>
+          </motion.div>
 
-          <h1
-            className="a2 pp font-black leading-none mb-9 hero-title"
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="pp font-black leading-none mb-9 hero-title"
             style={{
               fontSize: "clamp(54px, 8vw, 100px)",
               letterSpacing: "-3.5px",
@@ -136,19 +146,25 @@ export default function Landing({
             Find It.
             <br />
             <span style={{ color: "#FF3300" }}>SHELF It.</span>
-          </h1>
+          </motion.h1>
 
-          <p
-            className="a3 text-lg leading-relaxed mb-12 hero-p"
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-lg leading-relaxed mb-12 hero-p"
             style={{ color: "#666", maxWidth: 480 }}
           >
             Your campus-only marketplace. Buy, sell, and exchange textbooks,
             electronics, services — exclusively with verified students from your
             college.
-          </p>
+          </motion.p>
 
-          <div
-            className="a4 flex rounded-2xl overflow-hidden mb-11 search-bar"
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex rounded-2xl overflow-hidden mb-11 search-bar"
             style={{
               maxWidth: 580,
               border: "2.5px solid #111",
@@ -182,9 +198,14 @@ export default function Landing({
             >
               Search
             </button>
-          </div>
+          </motion.div>
 
-          <div className="a5 flex gap-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="flex gap-12"
+          >
             {[
               ["2,400+", "Active Listings"],
               ["8,000+", "Verified Students"],
@@ -202,7 +223,7 @@ export default function Landing({
                 </div>
               </div>
             ))}
-          </div>
+          </motion.div>
         </div>
 
         {}
@@ -352,10 +373,67 @@ export default function Landing({
           ))}
         </div>
       </div>
+      <AnimatePresence>
+        {savedListings.length > 0 && (
+          <motion.section
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="px-6 md:px-20 pt-20 pb-6 bg-[#fff] overflow-hidden"
+          >
+            <div className="flex items-end justify-between mb-9">
+              <div>
+                <p
+                  className="pp text-xs font-bold tracking-widest uppercase mb-2"
+                  style={{ color: "#FF3300" }}
+                >
+                  Personalized
+                </p>
+                <h2
+                  className="pp font-extrabold text-3xl md:text-4xl tracking-tight"
+                  style={{ color: "#111" }}
+                >
+                  Saved for Later
+                </h2>
+              </div>
+              <button
+                onClick={() => setView("browse:saved")}
+                className="nl pp flex items-center gap-1 text-sm font-medium"
+                style={{
+                  color: "#777",
+                  border: "none",
+                  background: "none",
+                  cursor: "pointer",
+                }}
+              >
+                See all saved <ArrowRight size={13} />
+              </button>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+              {savedListings.slice(0, 3).map((item) => (
+                <ListingCard
+                  key={item.id}
+                  item={item}
+                  onClick={() => {
+                    setSelected(item);
+                    setView("listing");
+                  }}
+                  savedIds={savedIds}
+                  onToggleSave={(id) =>
+                    setSavedIds((p) =>
+                      p.includes(id) ? p.filter((x) => x !== id) : [...p, id]
+                    )
+                  }
+                />
+              ))}
+            </div>
+          </motion.section>
+        )}
+      </AnimatePresence>
 
-      {}
-      <section className="px-20 pt-20 pb-6">
-        <div className="flex items-end justify-between mb-9">
+      {/* Categories */}
+      <section className="px-6 md:px-20 pt-20 pb-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-9 gap-4">
           <div>
             <p
               className="pp text-xs font-bold tracking-widest uppercase mb-2"
@@ -364,7 +442,7 @@ export default function Landing({
               Browse
             </p>
             <h2
-              className="pp font-extrabold text-4xl tracking-tight"
+              className="pp font-extrabold text-3xl md:text-4xl tracking-tight"
               style={{ color: "#111" }}
             >
               What are you looking for?
@@ -372,7 +450,7 @@ export default function Landing({
           </div>
           <button
             onClick={() => setView("browse")}
-            className="nl pp flex items-center gap-1 text-sm font-medium"
+            className="nl pp flex items-center gap-1 text-sm font-medium self-start md:self-auto"
             style={{
               color: "#777",
               border: "none",
@@ -384,10 +462,7 @@ export default function Landing({
           </button>
         </div>
         <div
-          className="grid gap-2.5"
-          style={{
-            gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))",
-          }}
+          className="grid gap-2.5 grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-11"
         >
           {CATEGORIES.map((cat) => {
             const Icon = cat.icon;
@@ -416,8 +491,8 @@ export default function Landing({
       </section>
 
       {}
-      <section className="px-20 py-16">
-        <div className="flex items-end justify-between mb-9">
+      <section className="px-6 md:px-20 py-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-9 gap-6">
           <div>
             <p
               className="pp text-xs font-bold tracking-widest uppercase mb-2"
@@ -426,18 +501,18 @@ export default function Landing({
               Recent
             </p>
             <h2
-              className="pp font-extrabold text-4xl tracking-tight"
+              className="pp font-extrabold text-3xl md:text-4xl tracking-tight"
               style={{ color: "#111" }}
             >
               Fresh on SHELF
             </h2>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
             {["Newest", "Price: Low", "Price: High", "Top Rated"].map((f) => (
               <button
                 key={f}
                 onClick={() => setActiveFilter(f)}
-                className="pp text-xs font-semibold px-4 py-2 rounded-full"
+                className="pp text-xs font-semibold px-4 py-2 rounded-full whitespace-nowrap"
                 style={{
                   border:
                     activeFilter === f ? "2px solid #111" : "1.5px solid #E0DDD9",
@@ -452,7 +527,7 @@ export default function Landing({
             ))}
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
           {(filtered.length ? filtered : recentListings.slice(0, 6)).map(
             (item) => (
               <ListingCard
@@ -489,7 +564,7 @@ export default function Landing({
       </section>
 
       {}
-      <section className="px-20 py-20" style={{ background: "#111" }}>
+      <section className="px-6 md:px-20 py-20" style={{ background: "#111" }}>
         <div className="text-center mb-16">
           <p
             className="pp text-xs font-bold tracking-widest uppercase mb-3"
@@ -501,7 +576,7 @@ export default function Landing({
             How SHELF works
           </h2>
         </div>
-        <div className="grid grid-cols-3 gap-16 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 max-w-4xl mx-auto">
           {[
             [
               "01",
@@ -537,7 +612,7 @@ export default function Landing({
 
       {}
       <section
-        className="px-20 py-28 text-center"
+        className="px-6 md:px-20 py-28 text-center"
         style={{ background: "#FAFAF8" }}
       >
         <h2
@@ -558,7 +633,7 @@ export default function Landing({
         >
           Join 8,000+ students already buying and selling smarter on campus.
         </p>
-        <div className="flex gap-4 justify-center">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
           {!user ? (
             <button
               onClick={() => setView("auth")}
@@ -593,7 +668,7 @@ export default function Landing({
 
       {}
       <footer
-        className="px-20 py-7 flex items-center justify-between"
+        className="px-6 md:px-20 py-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left"
         style={{ borderTop: "1px solid #E8E6E3" }}
       >
         <div className="flex items-center gap-3">
@@ -632,6 +707,15 @@ export default function Landing({
           2025 SHELF. Built for students.
         </span>
       </footer>
+      <motion.button
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        onClick={() => setView(user ? "post" : "auth")}
+        className="fixed bottom-6 right-6 md:hidden z-50 flex items-center justify-center w-14 h-14 rounded-full shadow-2xl"
+        style={{ background: "#FF3300", border: "none", color: "#fff" }}
+      >
+        <Plus size={24} />
+      </motion.button>
     </div>
   );
 }

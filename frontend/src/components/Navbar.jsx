@@ -62,7 +62,7 @@ export default function Navbar({ view, setView, user, setUser, setAuthMode, goBa
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-10"
+      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 md:px-10"
       style={{
         height: 64,
         background: scrolled || !isLanding ? "rgba(250,250,248,.94)" : "transparent",
@@ -139,14 +139,14 @@ export default function Navbar({ view, setView, user, setUser, setAuthMode, goBa
           <>
             <button
               onClick={() => setView("post")}
-              className="btnr pp hidden md:flex items-center gap-1.5 text-sm font-semibold text-white rounded-xl px-4 py-2"
+              className="btnr pp flex items-center gap-1.5 text-sm font-semibold text-white rounded-xl px-4 py-2"
               style={{
                 background: "#FF3300",
                 border: "none",
                 cursor: "pointer",
               }}
             >
-              <Plus size={14} /> Post Ad
+              <Plus size={14} /> <span className="hidden md:inline">Post Ad</span>
             </button>
             <div className="relative">
               <button

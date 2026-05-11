@@ -22,9 +22,9 @@ export default function ListingDetail({ listing: item, setView, user, savedIds, 
   );
 
   return (
-    <div className="pt-20 pb-20 px-10 bg-[#FAFAF8] min-h-screen">
-      <div className="grid grid-cols-3 gap-8">
-        <div className="col-span-2 flex flex-col gap-6">
+    <div className="pt-24 pb-20 px-4 md:px-10" style={{ background: "#FAFAF8", minHeight: "100vh" }}>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 flex flex-col gap-6">
           <div className="bg-white rounded-3xl overflow-hidden border border-gray-100">
             <div className="relative h-[340px] bg-[#F8F7F5] flex items-center justify-center overflow-hidden">
               {item.images?.length > 0 ? <img src={item.images[0]} className="w-full h-full object-contain" /> : <CatIcon size={80} color="#ccc" />}
@@ -36,7 +36,7 @@ export default function ListingDetail({ listing: item, setView, user, savedIds, 
                 </button>
               </div>
             </div>
-            <div className="p-8">
+            <div className="p-6 md:p-8">
               <div className="flex justify-between mb-4">
                 <div>
                   <p className="pp text-xs font-bold text-[#FF3300] uppercase tracking-widest mb-2">{item.category}</p>
@@ -50,7 +50,7 @@ export default function ListingDetail({ listing: item, setView, user, savedIds, 
               <div className="flex flex-wrap gap-2 mb-6">
                 {item.tags?.map(t => <span key={t} className="flex items-center gap-1 text-xs px-3 py-1 bg-[#F5F3F0] text-[#777] rounded-full"><Tag size={9} /> {t}</span>)}
               </div>
-              <div className="grid grid-cols-3 gap-4 mb-6 p-4 bg-[#F8F7F5] rounded-2xl">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 p-4 bg-[#F8F7F5] rounded-2xl">
                 {[["Condition", item.condition], ["Location", item.location || "Campus"], ["Posted", timeAgo(item.createdAt)]].map(([k, v]) => (
                   <div key={k}><p className="pp text-xs font-semibold text-gray-400 mb-0.5">{k}</p><p className="pp text-sm font-bold text-gray-800">{v}</p></div>
                 ))}

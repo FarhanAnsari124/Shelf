@@ -97,7 +97,7 @@ export default function AuthPage({ mode, setView, setUser, onModeChange }) {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 pt-20 pb-10" style={{ background: "#FAFAF8" }}>
-      <div className="w-full max-w-md bg-white rounded-3xl p-10 shadow-sm border border-gray-100">
+      <div className="w-full max-w-md bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-gray-100">
         {step === "register" ? (
           <>
             <div className="mb-8">
@@ -133,7 +133,7 @@ export default function AuthPage({ mode, setView, setUser, onModeChange }) {
             </div>
             <div className="flex gap-2 justify-center mb-6">
               {otp.map((d, i) => (
-                <input key={i} ref={(el) => (refs.current[i] = el)} maxLength={1} value={d} onChange={(e) => handleOtpKey(i, e.target.value, e)} onKeyDown={(e) => e.key === "Backspace" && handleOtpKey(i, "", e)} className="pp text-xl font-bold text-center rounded-xl" style={{ width: 52, height: 60, border: d ? "2.5px solid #111" : "2px solid #E8E6E3", outline: "none" }} />
+                <input key={i} ref={(el) => (refs.current[i] = el)} maxLength={1} value={d} onChange={(e) => handleOtpKey(i, e.target.value, e)} onKeyDown={(e) => e.key === "Backspace" && handleOtpKey(i, "", e)} className="pp text-xl font-bold text-center rounded-xl" style={{ width: "clamp(32px, 12vw, 52px)", height: "clamp(48px, 15vw, 60px)", border: d ? "2.5px solid #111" : "2px solid #E8E6E3", outline: "none" }} />
               ))}
             </div>
             <button onClick={handleOtp} disabled={loading} className="w-full pp font-bold rounded-xl py-4" style={{ ...btnStyle, opacity: loading ? 0.7 : 1 }}>{loading ? "Verifying..." : "Verify"}</button>

@@ -47,19 +47,21 @@ export default function Browse({ setView, setSelected, user, savedIds, setSavedI
 
   return (
     <div className="pt-20 bg-[#FAFAF8] min-h-screen">
-      <div className="px-10 py-8">
-        <div className="flex gap-3 mb-6">
+      <div className="px-4 md:px-10 py-8">
+        <div className="flex flex-col md:flex-row gap-3 mb-6">
           <div className="flex-1 flex items-center gap-2 bg-white rounded-xl px-4 py-3 border border-gray-100 shadow-sm">
             <Search size={16} color="#bbb" />
             <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search..." className="flex-1 text-sm bg-transparent outline-none" />
             {query && <button onClick={() => setQuery("")} className="border-none bg-none cursor-pointer"><X size={13} color="#ccc" /></button>}
           </div>
-          <button onClick={() => setShowFilter(!showFilter)} className="pp flex items-center gap-2 text-sm font-semibold px-4 py-3 bg-white rounded-xl border border-gray-100 shadow-sm" style={{ color: showFilter ? "#FF3300" : "#555" }}><SlidersHorizontal size={15} /> Filter</button>
-          {user && <button onClick={() => setView("post")} className="btnr pp text-sm font-semibold text-white px-5 py-3 bg-[#FF3300] rounded-xl border-none"><Plus size={15} /> Post Ad</button>}
+          <div className="flex gap-2">
+            <button onClick={() => setShowFilter(!showFilter)} className="pp flex-1 md:flex-none flex items-center justify-center gap-2 text-sm font-semibold px-4 py-3 bg-white rounded-xl border border-gray-100 shadow-sm" style={{ color: showFilter ? "#FF3300" : "#555" }}><SlidersHorizontal size={15} /> Filter</button>
+            {user && <button onClick={() => setView("post")} className="btnr pp flex-1 md:flex-none flex items-center justify-center gap-2 text-sm font-semibold text-white px-5 py-3 bg-[#FF3300] rounded-xl border-none"><Plus size={15} /> Post Ad</button>}
+          </div>
         </div>
 
         {showFilter && (
-          <div className="bg-white rounded-2xl p-6 mb-6 border border-gray-100 grid grid-cols-4 gap-4">
+          <div className="bg-white rounded-2xl p-6 mb-6 border border-gray-100 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             <select value={cat} onChange={e => setCat(e.target.value)} className="text-sm px-3 py-2.5 rounded-xl border border-gray-200 outline-none"><option value="">All Categories</option>{CATEGORIES.map(c => <option key={c.label} value={c.label}>{c.label}</option>)}</select>
             <select value={condition} onChange={e => setCondition(e.target.value)} className="text-sm px-3 py-2.5 rounded-xl border border-gray-200 outline-none"><option value="">Any Condition</option>{CONDITIONS.map(c => <option key={c} value={c}>{c}</option>)}</select>
             <div className="flex gap-2"><input value={minP} onChange={e => setMinP(e.target.value)} placeholder="Min" className="w-full text-sm px-3 py-2.5 border border-gray-200 rounded-xl" /><input value={maxP} onChange={e => setMaxP(e.target.value)} placeholder="Max" className="w-full text-sm px-3 py-2.5 border border-gray-200 rounded-xl" /></div>
@@ -73,7 +75,7 @@ export default function Browse({ setView, setSelected, user, savedIds, setSavedI
         </div>
 
         {filtered.length === 0 ? <p className="text-center py-24 text-gray-400">No results found</p> : (
-          <div className="grid grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
             {filtered.map(item => <ListingCard key={item.id} item={item} onClick={() => { setSelected(item); setView("listing"); }} savedIds={savedIds} onToggleSave={id => setSavedIds(p => p.includes(id) ? p.filter(x => x !== id) : [...p, id])} />)}
           </div>
         )}
