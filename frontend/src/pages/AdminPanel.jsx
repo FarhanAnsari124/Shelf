@@ -5,6 +5,8 @@ import { API_URL } from "../data";
 export default function AdminPanel({ setView, user }) {
   const [tab, setTab] = useState("dashboard");
   const [data, setData] = useState({ listings: 0, users: 0, reports: 0, colleges: 0 });
+  const [users, setUsers] = useState([]);
+  const [loadingUsers, setLoadingUsers] = useState(false);
 
   React.useEffect(() => {
     fetch(`${API_URL}/api/admin/stats`, {
@@ -15,6 +17,20 @@ export default function AdminPanel({ setView, user }) {
         if (res.success) setData(res.data);
       });
   }, []);
+
+  React.useEffect(() => {
+    if (tab === "users") {
+      setLoadingUsers(true);
+      fetch(`${API_URL}/api/admin/users`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("shelf_token")}` }
+      })
+        .then(res => res.json())
+        .then(res => {
+          setLoadingUsers(false);
+          if (res.success) setUsers(res.data);
+        });
+    }
+  }, [tab]);
 
   const stats = [
     ["Active Listings", data.listings.toString(), TrendingUp, "#FF3300"],
@@ -54,14 +70,48 @@ export default function AdminPanel({ setView, user }) {
           <div className="flex flex-col items-center justify-center py-20 text-gray-500"><CheckCircle size={40} color="#16a34a" className="mb-4" /><p className="pp font-semibold">Moderation queue is empty!</p></div>
         ) : tab === "users" ? (
           <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-50 flex items-center gap-3"><Search size={15} color="#bbb" /><input placeholder="Search..." className="flex-1 text-sm bg-transparent border-none" /></div>
-            <div className="flex flex-col items-center justify-center py-20 text-gray-400"><Users size={40} className="mb-4" /><p className="pp font-semibold">No users found.</p></div>
+            <div className="px-6 py-4 border-b border-gray-50 flex items-center gap-3">
+              <Search size={15} color="#bbb" />
+              <input placeholder="Search users by name or roll number..." className="flex-1 text-sm bg-transparent border-none" />
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-3 text-xs font-bold text-gray-500 uppercase">Student</th>
+                    <th className="px-6 py-3 text-xs font-bold text-gray-500 uppercase">Roll Number</th>
+                    <th className="px-6 py-3 text-xs font-bold text-gray-500 uppercase">Department</th>
+                    <th className="px-6 py-3 text-xs font-bold text-gray-500 uppercase text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-50">
+                  {users.map(u => (
+                    <tr key={u._id} className="hover:bg-gray-50/50">
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full bg-[#FF330010] text-[#FF3300] flex items-center justify-center font-bold text-[10px]">{u.name?.charAt(0)}</div>
+                          <span className="text-sm font-semibold text-gray-900">{u.name}</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-600">{u.rollNumber}</td>
+                      <td className="px-6 py-4 text-sm text-gray-50">{u.department || "N/A"}</td>
+                      <td className="px-6 py-4 text-right">
+                        <button className="text-xs font-bold text-[#FF3300] bg-transparent border-none cursor-pointer">Manage</button>
+                      </td>
+                    </tr>
+                  ))}
+                  {users.length === 0 && !loadingUsers && (
+                    <tr><td colSpan="4" className="py-20 text-center text-gray-400">No users found.</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-6">
             <div className="bg-white rounded-2xl p-6 border border-gray-100"><p className="pp font-bold mb-5">Platform Activity</p>
               <div className="flex flex-col gap-4">
-                {[["Today's Listings", "0", TrendingUp, "#16a34a"], ["Today's Signups", "0", Users, "#4F46E5"], ["Messages Sent", "0", MessageCircle, "#FF3300"]].map(([l, v, Icon, c]) => (
+                {[["Today's Listings", data.listings, TrendingUp, "#16a34a"], ["Today's Signups", data.users, Users, "#4F46E5"], ["Messages Sent", "0", MessageCircle, "#FF3300"]].map(([l, v, Icon, c]) => (
                   <div key={l} className="flex justify-between p-3 bg-[#F8F7F5] rounded-xl"><div className="flex items-center gap-3"><Icon size={15} color={c} /><span className="text-sm text-gray-600">{l}</span></div><span className="pp font-bold text-sm">{v}</span></div>
                 ))}
               </div>
