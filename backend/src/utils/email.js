@@ -23,7 +23,6 @@ const sendOTP = async (email, otp) => {
     await axios.post("https://api.brevo.com/v3/smtp/email", data, config);
     return true;
   } catch (error) {
-    console.error("Brevo API Error:", error.response ? error.response.data : error.message);
     return false;
   }
 };
