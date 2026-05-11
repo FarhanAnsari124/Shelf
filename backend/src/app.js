@@ -18,6 +18,7 @@ app.use("/api/auth", require("./modules/auth/auth.routes"));
 app.use("/api/listings", require("./modules/listings/listing.routes"));
 app.use("/api/users", require("./modules/users/user.routes"));
 app.use("/api/conversations", require("./modules/conversations/conversation.routes"));
+app.use("/api/admin", require("./modules/admin/admin.routes"));
 
 app.get("/api/health", (req, res) => res.json({ status: "ok" }));
 

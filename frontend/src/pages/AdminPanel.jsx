@@ -1,14 +1,26 @@
 import React, { useState } from "react";
 import { Search, MessageCircle, CheckCircle, Users, FileText, AlertTriangle, TrendingUp, Award } from "lucide-react";
+import { API_URL } from "../data";
 
 export default function AdminPanel({ setView, user }) {
   const [tab, setTab] = useState("dashboard");
+  const [data, setData] = useState({ listings: 0, users: 0, reports: 0, colleges: 0 });
+
+  React.useEffect(() => {
+    fetch(`${API_URL}/api/admin/stats`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("shelf_token")}` }
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.success) setData(res.data);
+      });
+  }, []);
 
   const stats = [
-    ["Active Listings", "0", TrendingUp, "#FF3300"],
-    ["Verified Students", "0", Users, "#4F46E5"],
-    ["Reports Pending", "0", AlertTriangle, "#b45309"],
-    ["Colleges", "0", Award, "#16a34a"],
+    ["Active Listings", data.listings.toString(), TrendingUp, "#FF3300"],
+    ["Verified Students", data.users.toString(), Users, "#4F46E5"],
+    ["Reports Pending", data.reports.toString(), AlertTriangle, "#b45309"],
+    ["Colleges", data.colleges.toString(), Award, "#16a34a"],
   ];
 
   return (
